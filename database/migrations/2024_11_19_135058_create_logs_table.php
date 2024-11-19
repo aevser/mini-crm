@@ -13,9 +13,11 @@ return new class extends Migration
     {
         Schema::create('logs', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(\App\Models\Site::class, 'site_id')
-                ->constrained()
-                ->onDelete('cascade');
+//            $table->foreignIdFor(\App\Models\Site::class, 'site_id')
+//                ->nullable()
+//                ->constrained()
+//                ->onDelete('set null');
+            $table->foreignId('site_id');
             $table->string('action');
             $table->json('details');
             $table->timestamps();

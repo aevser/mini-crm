@@ -3,6 +3,7 @@
 namespace App\Jobs\V1\Site;
 
 use App\Models\Site;
+use App\Services\LogService;
 use Illuminate\Foundation\Queue\Queueable;
 
 class Update
@@ -32,6 +33,16 @@ class Update
             'name' => $this->name,
             'url' => $this->url
         ]);
+
+        LogService::log(
+            site_id: $site->id,
+            action: 'Сайт обновлен',
+            details: [
+                'id' => $site->id,
+                'name' => $site->name,
+                'url' => $site->url
+            ]
+        );
 
         return $site;
     }

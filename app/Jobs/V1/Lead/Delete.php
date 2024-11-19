@@ -3,6 +3,7 @@
 namespace App\Jobs\V1\Lead;
 
 use App\Models\Lead;
+use App\Services\LogService;
 use Illuminate\Foundation\Queue\Queueable;
 
 class Delete
@@ -25,6 +26,19 @@ class Delete
      */
     public function handle()
     {
-        return Lead::destroy($this->lead_id);
+        $lead = Lead::findOrFail($this->lead_id);
+
+        LogService::log(
+            site_id: $lead->id,
+            action: 'Лид удален',
+            details: [
+                'id' => $lead->id,
+                'name' => $lead->name,
+                'phone' => $lead->phone,
+                'comment' => $lead->comment
+            ]
+        );
+
+        return $lead->delete();
     }
 }

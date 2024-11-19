@@ -3,6 +3,7 @@
 namespace App\Jobs\V1\Site;
 
 use App\Models\Site;
+use App\Services\LogService;
 use Illuminate\Foundation\Queue\Queueable;
 
 class Create
@@ -32,6 +33,17 @@ class Create
             'url' => $this->url,
             'api_token' => $this->api_token,
         ]);
+
+        LogService::log(
+            site_id: $site->id,
+            action: 'Сайт добавлен',
+            details: [
+                'id' => $site->id,
+                'name' => $site->name,
+                'url' => $site->url,
+                'api_token' => $site->api_token
+            ]
+        );
 
         return $site;
     }

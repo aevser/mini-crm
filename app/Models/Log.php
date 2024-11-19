@@ -13,6 +13,10 @@ class Log extends Model
         'details'
     ];
 
+    protected $casts = [
+        'details' => 'array'
+    ];
+
     public function site(): BelongsTo
     {
         return $this->belongsTo(Site::class);

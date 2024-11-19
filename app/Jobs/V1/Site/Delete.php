@@ -3,6 +3,7 @@
 namespace App\Jobs\V1\Site;
 
 use App\Models\Site;
+use App\Services\LogService;
 use Illuminate\Foundation\Queue\Queueable;
 
 class Delete
@@ -25,6 +26,18 @@ class Delete
      */
     public function handle()
     {
-        return Site::destroy($this->site_id);
+        $site = Site::findOrFail($this->site_id);
+
+        LogService::log(
+            site_id: $site->id,
+            action: 'Сайт удален',
+            details: [
+                'id' => $site->id,
+                'name' => $site->name,
+                'url' => $site->url
+            ]
+        );
+
+        $site->delete();
     }
 }
